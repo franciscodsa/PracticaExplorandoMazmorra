@@ -5,6 +5,7 @@ import org.w3c.dom.Element;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class CustomTreeNode extends DefaultMutableTreeNode {
+
     public CustomTreeNode(Object userObject) {
         super(userObject);
     }
@@ -22,6 +23,9 @@ public class CustomTreeNode extends DefaultMutableTreeNode {
                 }
                 case Constantes.DESCRIPTION_XML_TAG -> {
                     return element.getTextContent();
+                }
+                case Constantes.DUNGEON_XML_TAG -> {
+                    return Constantes.DUNGEON_XML_TAG;
                 }
             }
         }

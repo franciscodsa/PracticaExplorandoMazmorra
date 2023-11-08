@@ -5,6 +5,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.xml.parsers.DocumentBuilder;
@@ -20,6 +21,9 @@ public class MazmorraGUI {
 
     private static Element firstRoom;
 
+    private static JTextArea historialTxt;
+
+    private static JTextArea descripcionTxt;
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> createAndShowGUI());
     }
@@ -57,7 +61,7 @@ public class MazmorraGUI {
         westButton.setEnabled(false);
 
         // Configurar el panel de respuesta en la parte inferior derecha
-        JTextArea historialTxt = new JTextArea(5, 35);
+        historialTxt = new JTextArea(5, 35);
         historialTxt.setEditable(false);
         JScrollPane responseScrollPane = new JScrollPane(historialTxt);
 
@@ -69,7 +73,7 @@ public class MazmorraGUI {
         buttonPanel.add(eastButton, BorderLayout.EAST);
         buttonPanel.add(westButton, BorderLayout.WEST);
 
-        JTextArea descripcionTxt = new JTextArea(20, 35);
+        descripcionTxt = new JTextArea(20, 35);
         descripcionTxt.setWrapStyleWord(true);
         descripcionTxt.setEditable(false);
         descripcionTxt.setLineWrap(true);
@@ -96,17 +100,30 @@ public class MazmorraGUI {
         //Muestro mensaje inicial con instrucciones
         historialTxt.append(Constantes.SOLICITAR_XML_Y_START);
 
+        //Opcion start deshabilitada hasta que se agregue un xml
+        startMenuItem.setEnabled(false);
+
         //Agregar acción a opción Load
         loadMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos xml", "xml");
+                fileChooser.setFileFilter(filter);
+                descripcionTxt.setText("");
+
+                northButton.setEnabled(false);
+                southButton.setEnabled(false);
+                eastButton.setEnabled(false);
+                westButton.setEnabled(false);
+
                 int returnValue = fileChooser.showOpenDialog(frame);
 
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
                     cargarXml(tree, selectedFile);
-                    historialTxt.append(Constantes.INSTRUCCION_PRESSIONA_START);
+                    historialTxt.setText(Constantes.INSTRUCCION_PRESSIONA_START);
+                    startMenuItem.setEnabled(true);
                 }
             }
         });
@@ -117,6 +134,8 @@ public class MazmorraGUI {
             public void actionPerformed(ActionEvent e) {
                 if (firstRoom != null) {
                     //Activo botones
+
+                    startMenuItem.setEnabled(false);
                     northButton.setEnabled(true);
                     southButton.setEnabled(true);
                     eastButton.setEnabled(true);
@@ -264,10 +283,9 @@ public class MazmorraGUI {
 
             Element rootElement = document.getDocumentElement();
 
-            DefaultMutableTreeNode rootNode = new CustomTreeNode(rootElement);
             tree.setModel(new DefaultTreeModel(buildTree(rootElement)));
         } catch (Exception e) {
-            e.printStackTrace();
+            historialTxt.append(Constantes.ERROR_AL_CARGAR_EL_XML);
         }
     }
 

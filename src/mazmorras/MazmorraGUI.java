@@ -30,7 +30,7 @@ public class MazmorraGUI {
 
     private static void createAndShowGUI() {
         // Crear el marco principal
-        JFrame frame = new JFrame("Frame principal");
+        JFrame frame = new JFrame("Explora la mazmorra");
 
         // Crear la barra de menú
         JMenuBar menuBar = new JMenuBar();

@@ -16,7 +16,7 @@ public class Constantes {
     public static final String DESCRIPCION_NO_DISPONIBLE = "Descripción no disponible";
     public static final String ROOM_XML_TAG = "room";
     public static final String ID_ROOM_ATTRIBUTE = "id";
-    public static final String INSTRUCCION_PRESSIONA_START = "Presiona Start (Opciones > Start) para comenzar el juego";
+    public static final String INSTRUCCION_PRESSIONA_START = "Presiona Start (Opciones > Start) para comenzar el juego\n";
     public static final String ERROR_AL_CARGAR_EL_XML = "Error al cargar el xml.\n";
     public static final String DUNGEON_XML_TAG = "dungeon";
 }
